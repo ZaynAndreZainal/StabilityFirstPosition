@@ -16,8 +16,8 @@ The pipeline produces per-run metrics.json files, aggregates them across seeds, 
 bench/
 ├── configs/                    # YAML hyperparameters for each optimizer
 │   ├── chb/                    # (base, sgd, adamw, lion, sam, etc.)
-|   └── cifar10/                # (base, sgd, adamw, lion, sam, etc.)
-│   ├── regimes/                # (fixed_compute, fixed_time)
+|   ├── cifar10/                # (base, sgd, adamw, lion, sam, etc.)
+│   └── regimes/                # (fixed_compute, fixed_time)
 ├── src/                        # Core logic
 │   ├── train_cifar10.py        # Vision training entry point
 │   ├── train_chb.py            # EEG training entry point
