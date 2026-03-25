@@ -86,9 +86,11 @@ train_chb.py expects a cached window dataset (npz shards). Two common workflows:
 
 1) Preprocess once to a cache directory (recommended):
    Use bench/src/preprocess_chb_cache.py to generate a cache under:
+```text
    /path/to/cache_root/chb_detection_v1/{train,val,test}/shard_*.npz
+```
 
-2) Train from that cache:
+3) Train from that cache:
 
 ```bash
 python3 bench/src/train_chb.py \
