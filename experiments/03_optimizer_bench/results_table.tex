@@ -1,0 +1,21 @@
+\begin{table}[htp!]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{CIFAR-10} & \multicolumn{2}{c}{CHB-MIT} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Optimizer & Acc. (\%) & Time (s) & AUC (\%) & Time (s) \\
+\midrule
+SGD & 92.40 $\pm$ 0.19 & 539 $\pm$ 105 & 36.27 $\pm$ 14.99 & 7200 $\pm$ 0 \\ 
+SGD\texttt{+}Momentum & 95.44 $\pm$ 0.08 & 1304 $\pm$ 136 & 79.04 $\pm$ 2.55 & 1279 $\pm$ 507 \\ 
+Adam & 92.47 $\pm$ 0.12 & \textbf{296 $\pm$ 19} & \textbf{86.80 $\pm$ 0.55} & 415 $\pm$ 181 \\ 
+AdamW & 93.34 $\pm$ 0.07 & 465 $\pm$ 45 & 86.45 $\pm$ 0.29 & 732 $\pm$ 546 \\ 
+RMSProp & 91.86 $\pm$ 0.06 & 473 $\pm$ 138 & 74.93 $\pm$ 21.59 & \textbf{362 $\pm$ 60} \\ 
+Lion & 93.13 $\pm$ 0.09 & 395 $\pm$ 48 & 80.54 $\pm$ 3.48 & 556 $\pm$ 140 \\ 
+SAM (SGD) & \textbf{96.01 $\pm$ 0.03} & 1349 $\pm$ 233 & 70.22 $\pm$ 12.88 & 822 $\pm$ 7 \\ 
+SAM (AdamW) & 94.17 $\pm$ 0.12 & 468 $\pm$ 10 & 81.03 $\pm$ 9.98 & 641 $\pm$ 116 \\ 
+\bottomrule
+\end{tabular}
+\caption{\textbf{End-to-end optimizer benchmark on CIFAR-10 and CHB-MIT.} We report mean $\pm$ standard deviation over three random seeds for IID test accuracy (CIFAR-10) and Independent and Identically Distributed (IID) test AUC (CHB-MIT), alongside time-to-target in seconds (lower is better; falling back to the fixed budget when time-to-target is unavailable). Best performance (higher is better) and best time (lower is better) are highlighted in bold for each dataset.}
+\label{tab:results}
+\end{table}
