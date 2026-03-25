@@ -14,19 +14,19 @@ The pipeline produces per-run metrics.json files, aggregates them across seeds, 
 
 ```text
 bench/
-├── configs/                # YAML hyperparameters for each optimizer
-│   ├── chb/                # (base, sgd, adamw, lion, sam, etc.)
-|   └── cifar10/            # (base, sgd, adamw, lion, sam, etc.)
-│   ├── regimes/            # (fixed_compute, fixed_time)
-├── src/                    # Core logic
-│   ├── train_cifar10.py    # Vision training entry point
-│   ├── train_chb.py        # EEG training entry point
-│   ├── eval_*.py           # Specialized evaluation scripts
-│   ├── aggregate_results.py # Multi-seed statistics
-│   └── plot_*.py           # Visualization suite
+├── configs/                    # YAML hyperparameters for each optimizer
+│   ├── chb/                    # (base, sgd, adamw, lion, sam, etc.)
+|   └── cifar10/                # (base, sgd, adamw, lion, sam, etc.)
+│   ├── regimes/                # (fixed_compute, fixed_time)
+├── src/                        # Core logic
+│   ├── train_cifar10.py        # Vision training entry point
+│   ├── train_chb.py            # EEG training entry point
+│   ├── eval_*.py               # Specialized evaluation scripts
+│   ├── aggregate_results.py    # Multi-seed statistics
+│   └── plot_*.py               # Visualization suite
 └── results/                
-    ├── raw/                # Written by training scripts (metrics.json)
-    └── aggregated/         # Written by analysis scripts
+    ├── raw/                    # Written by training scripts (metrics.json)
+    └── aggregated/             # Written by analysis scripts
 ```
 
 ---
