@@ -1,0 +1,32 @@
+# fixed_time_2h.yaml
+budget:
+  regime: fixed_time
+  wallclock_seconds: 7200
+
+training:
+  # Accuracy-over-time plots: keep training running to the wallclock budget
+  stop_on_target: false
+
+  # Time-to-target is still logged for x-axis / diagnostics
+  target_acc: 0.90   # CIFAR threshold
+  target_auc: 0.80   # CHB threshold (raise/lower based on reachability)
+
+  # Speed / stability
+  mixed_precision: false          # set false only for unstable optimizers (e.g., some SAM runs)
+  batch_size: 128                # CIFAR; CHB typically larger if it fits
+  max_epochs: 200                # CIFAR safety cap (wallclock is the real limiter)
+  grad_clip_norm: 0.0            # CHB uses this; CIFAR currently does not enforce it in code
+  label_smoothing: 0.0
+
+  # NOTE: these two keys are currently NOT enforced by the reference scripts unless you add code support
+  cudnn_benchmark: true
+  eval_every_epochs: 5
+
+logging:
+  save_json: true
+  json_filename: metrics.json
+  track_wallclock: true
+
+data:
+  num_workers: 8
+  pin_memory: true

@@ -1,0 +1,41 @@
+domain: cifar10
+task: classification
+
+data:
+  dataset: cifar10
+  root: data/cifar10
+  num_workers: 8
+  pin_memory: true
+
+model:
+  name: resnet18
+  num_classes: 10
+
+training:
+  batch_size: 128
+  max_epochs: 200
+  grad_clip_norm: 1.0
+  label_smoothing: 0.0
+
+optimizer:
+  name: rmsprop
+  params:
+    lr: 0.001
+    alpha: 0.99
+    eps: 1.0e-6
+    momentum: 0.0
+    centered: false
+    weight_decay: 0.0
+
+scheduler:
+  name: cosine
+  params:
+    warmup_epochs: 5
+    min_lr: 0.0
+
+eval:
+  cifar10c:
+    enabled: true
+    root: data/cifar10c
+    severities: [1, 2, 3, 4, 5]
+    corruptions: "all"

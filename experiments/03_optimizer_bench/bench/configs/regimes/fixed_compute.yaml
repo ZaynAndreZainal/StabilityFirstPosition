@@ -1,0 +1,20 @@
+budget:
+  regime: fixed_compute
+  # Prefer max_steps if your loops are step-based. Otherwise use max_epochs.
+  max_steps: 100000
+
+training:
+  mixed_precision: false
+  cudnn_benchmark: true
+  log_every_n_steps: 50
+  save_checkpoints: true
+  save_best_only: true
+  eval_every_epochs: 5
+  stop_on_target: false
+  target_acc: 0.90   # CIFAR time-to-target threshold
+  target_auc: 0.80   # CHB time-to-target threshold (adjust if unreachable)
+
+logging:
+  save_json: true
+  json_filename: metrics.json
+  track_wallclock: true
