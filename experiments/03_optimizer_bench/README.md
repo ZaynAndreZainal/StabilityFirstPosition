@@ -5,7 +5,6 @@ A minimal, end-to-end benchmark suite for comparing optimizers across:
 - EEG: CHB-MIT (seizure detection)
 
 The pipeline produces per-run metrics.json files, aggregates them across seeds, and generates:
-- A NeurIPS-style LaTeX results table
 - A Pareto efficiency–performance plot
 - Accuracy/AUC vs wallclock time learning curves
 
@@ -127,15 +126,6 @@ python3 bench/src/aggregate_results.py \
   --out_json bench/results/aggregated/summary.json
 ```
 
----
-
-## Generate the LaTeX table
-
-```bash
-python3 bench/src/export_latex_table.py \
-  --summary_json bench/results/aggregated/summary.json \
-  > bench/results/aggregated/results_table.tex
-```
 ---
 
 ## Generate Pareto trade-off figure
