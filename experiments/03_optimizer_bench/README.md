@@ -13,33 +13,20 @@ The pipeline produces per-run metrics.json files, aggregates them across seeds, 
 
 ## Repository layout (expected)
 
+```text
 bench/
-  src/
-    train_cifar10.py
-    eval_cifar10c.py
-    train_chb.py
-    eval_chb_stress.py
-    metrics.py
-    log_results.py
-    aggregate_results.py
-    export_latex_table.py
-    plot_pareto_tradeoff.py
-    plot_accuracy_over_time.py
-    preprocess_chb_cache.py
-  configs/
-    cifar10/
-      base.yaml
-      sgd.yaml
-      sgd_momentum.yaml
-      adam.yaml
-      adamw.yaml
-      rmsprop.yaml
-      lion.yaml
-      sam_sgd.yaml
-      sam_adamw.yaml
-bench/results/
-  raw/           # written by training
-  aggregated/    # written by aggregate_results.py + plotting scripts
+├── configs/                # YAML hyperparameters for each optimizer
+│   └── cifar10/            # (base, sgd, adamw, lion, sam, etc.)
+├── src/                    # Core logic
+│   ├── train_cifar10.py    # Vision training entry point
+│   ├── train_chb.py        # EEG training entry point
+│   ├── eval_*.py           # Specialized evaluation scripts
+│   ├── aggregate_results.py # Multi-seed statistics
+│   └── plot_*.py           # Visualization suite
+└── results/                
+    ├── raw/                # Written by training scripts (metrics.json)
+    └── aggregated/         # Written by analysis scripts
+```
 
 ---
 
