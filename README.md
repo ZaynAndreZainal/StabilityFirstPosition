@@ -1,4 +1,4 @@
-# OptimizationTheoryGap: Neural Network Dynamics in Biomedical Applications
+# Stability-First Biomedical AI Should Replace Discrete-Time Defaults and Curvature-Blind Training
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -8,12 +8,11 @@ This repository contains the official PyTorch implementation and experimental da
 
 **"Neural Network Dynamics in Biomedical Applications: Reviewing the Gap Between Optimization Instability and Theory-Driven Design"**
 
-*Zayn Andre Zainal, Zhaojing Huang, Isabelle Aguilar, Omid Kavahei*
+*Zayn Andre Zainal, Omid Kavahei, Isabelle Aguilar, Luis Fernando Herbozo CorteZhaojing Huang, , *
 
 ## Abstract
 
-> Artificial Intelligence has undeniably advanced biomedical engineering, particularly in diagnostics and pharmacokinetics. Yet, the field remains limited by a reliance on static mapping approaches which struggle to capture the complex, shifting nature of biological systems. To bridge the gap between theory and scalable application, this review proposes viewing biomedical AI through the lens of dynamical systems theory. By applying principles such as Lyapunov stability and attractor geometry, we can model physiological states, like homeostasis or epilepsy, as distinct topological behaviours rather than simple classification labels. Modern architectures are already evolving to reflect this, moving from discrete-time recurrent neural networks (RNNs) to continuous-time Neural Ordinary Differential Equations (ODEs) and Spiking Neural Networks (SNNs). However, theoretical challenges remain. We specifically address the instability of gradient-based optimization at the “Edge of Stability” (EoS), a phenomenon that risks model reliability and causes hallucinations in safety-critical imaging. Ultimately, sustainable progress depends not just on more data, but on establishing a unified theory that aligns algorithmic design with the physical realities of biological mechanisms.
-
+> Despite rapid gains in biomedical predictive performance, current evaluation and training practice still defaults to Independent and Identically Distributed (IID), fixed-step assumptions that are poorly matched to continuous-time physiology, and safety-critical deployment. This position paper argues that safety-relevant biomedical Machine Learning (ML) should adopt a stability-first design and reporting standard: irregular-time stress testing plus hazard-linked training diagnostics. We highlight two structural hazards: (i) discretisation-by-default can entangle physiology with the observation process (the Discrete-Time Fallacy); and (ii) training can persist in Edge-of-Stability (EoS) regimes where $\rho(t)=\eta\lambda_{\max}(t)/2>1$, producing perturbation-sensitive solutions. We provide controlled mechanism probes and a minimal reporting standard to guide domain-specific validation. Our goal is not to mandate continuous-time models, but to make shift sensitivity and optimisation instability more verifiable before deployment, escalating only when diagnostics and robustness curves justify the cost.
 ---
 
 ## Repository Structure
@@ -23,15 +22,16 @@ The codebase is organized by experiment, corresponding directly to the Appendice
 ```text
 OptimizationTheoryGap/
 ├── experiments/
-│   ├── 01_irregular_sampling/   # [Appendix A.1] Neural ODEs vs. LSTMs on FHN Dynamics
-│   └── 02_edge_of_stability/    # [Appendix A.2] Loss Landscape & Sharpness Visualization
+│   ├── 01_edge_of_stability/    # [Appendix C.1] Optimisation Instability (Edge of Stability) 
+│   ├── 02_irregular_sampling/   # [Appendix C.2] Topological Stability and Irregular Sampling
+│   └── 03_optimizer_compare/    # [Appendix C.3] End-to-End Optimiser Benchmark and Pareto Trade-off Plots
 ├── requirements.txt             # Shared dependencies for all experiments
 └── README.md                    # You are here
 ```
 
 ### 1. Irregular Sampling Benchmark (Appendix A.1)
 
-_Located in: `experiments/01_irregular_sampling/`_
+_Located in: `experiments/02_irregular_sampling/`_
 
 Demonstrates the "Discrete-Time Fallacy" by benchmarking Neural ODEs against Time-Aware LSTMs and ODE-RNNs on chaotic FitzHugh-Nagumo neuronal dynamics.
 - **Key Finding**: Discrete RNNs accumulate significant drift when data is sparse or irregularly sampled, whereas Neural ODEs learn the continuous vector field.
