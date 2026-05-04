@@ -1,4 +1,4 @@
-# Stability-First Biomedical AI Should Replace Discrete-Time Defaults and Curvature-Blind Training
+# StabilityFirstPoistion: Codebase for NeruIPS 2026 Postion Paper
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -29,22 +29,43 @@ OptimizationTheoryGap/
 └── README.md                    # You are here
 ```
 
-### 1. Irregular Sampling Benchmark (Appendix A.1)
 
-_Located in: `experiments/02_irregular_sampling/`_
+---
 
-Demonstrates the "Discrete-Time Fallacy" by benchmarking Neural ODEs against Time-Aware LSTMs and ODE-RNNs on chaotic FitzHugh-Nagumo neuronal dynamics.
-- **Key Finding**: Discrete RNNs accumulate significant drift when data is sparse or irregularly sampled, whereas Neural ODEs learn the continuous vector field.
-- **Metrics**: RMSE, Phase Space Trajectory Divergence.
+## Experiments (mapped to the paper)
 
-### 2. Edge of Stability Visualization (Appendix A.2)
+### 1. Edge of Stability Visualisation (Appendix C.1)
 
-_Located in: `experiments/02_edge_of_stability/`_
-Investigates optimization instability in deep networks trained on biomedical data (MedMNIST).
-- **Key Finding**: Modern optimizers do not converge to flat minima but "surf" the walls of high-curvature valleys ($\lambda_{max} > 2/\eta$), creating a risk of fragility in safety-critical deployments.
-- **Visualization**: 3D PCA projections of the loss landscape and Hessian spectral estimation.
+*Located in: **`experiments/01_edge_of_stability/`***
 
-## **Getting Started**
+Investigates optimisation instability in deep networks trained on biomedical data (MedMNIST / PathMNIST).
+
+- **Key finding**: Training can “surf” high-curvature regions where $\lambda_{\max} > 2/\eta$ (equivalently $\rho(t)=\eta\lambda_{\max}(t)/2>1$), implying perturbation-sensitive solutions despite decreasing loss.
+- **Outputs**: Training loss vs sharpness trajectories, 3D loss-landscape slices, and optimisation-path projections.
+- **Primary metrics**: $\lambda_{\max}$ (Hessian spectral proxy), $\rho(t)$, and summary statistics across seeds.
+
+### 2. Irregular Sampling Benchmark (Appendix C.2)
+
+*Located in: **`experiments/02_irregular_sampling/`***
+
+Demonstrates the **Discrete-Time Fallacy** using FitzHugh–Nagumo dynamics, benchmarking Neural ODEs against time-aware discrete baselines (e.g., T-LSTM and ODE-RNN).
+
+- **Key finding**: Discrete RNN baselines can accumulate phase error and drift under irregular resampling, while Neural ODEs can remain phase-locked by learning a stable continuous-time vector field.
+- **Primary metrics**: RMSE, phase-space divergence, and long-horizon error boundedness under schedule perturbations (jitter / thinning / bursty missingness).
+
+### 3. Optimiser Benchmark + Pareto Trade-off Plots (Appendix C.3)  **(NEW)**
+
+*Located in: **`experiments/03_optimizer_compare/`***
+
+Adds an end-to-end optimiser comparison benchmark (e.g., SGD, Momentum, Adam, AdamW, RMSprop, Lion, SAM variants) and visualises **efficiency–performance trade-offs**.
+
+- **Key finding**: Curvature-aware methods can improve final IID performance and/or robustness proxies in some regimes but may increase time-to-target. Results should be interpreted on an efficiency–reliability frontier rather than IID score alone.
+- **Outputs**: Pareto/frontier plots (performance vs time-to-target / wall-clock), plus per-optimiser summary tables.
+- **Primary metrics**: IID performance (Accuracy/AUC), wall-clock runtime, time-to-target, and (optionally) failure rate across seeds.
+
+---
+
+## Getting Started
 
 ### Prerequisites
 
@@ -61,20 +82,11 @@ pip install -r requirements.txt
 
 _Note: For GPU acceleration, please install the appropriate CUDA version of PyTorch from pytorch.org before running the requirements file._
 
-### Experiment A.1: Irregular Sampling (FitzHugh-Nagumo)
-
-To reproduce the time-series benchmarks and generate Figure 2 from the paper:
-```bash
-cd experiments/01_irregular_sampling
-python3 benchmark_main.py
-```
-_Output: `FitzHugh-Nagumo_rigorous.png` abd statistical summary table._
-
-### Experiment A.2: Edge of Stability (MedMNIST)
+### Experiment C.1: Edge of Stability (MedMNIST)
 
 To reproduce the loss landscape visualization and Figure 3 from the paper:
 ```bash
-cd experiments/02_edge_of_stability
+cd experiments/01_edge_of_stability
 
 # 1. Train the model (run for multiple seeds for confidence intervals)
 python3 train_eos.py --seed 0
@@ -88,13 +100,44 @@ python3 visualize_multi.py --seed 0
 
 _Output: `figures/eos_single_0.png` showing the 3D optimization path._
 
+### Experiment C.2: Irregular Sampling (FitzHugh-Nagumo)
+
+To reproduce the time-series benchmarks and generate Figure 2 from the paper:
+```bash
+cd experiments/02_irregular_sampling
+python3 benchmark_main.py
+```
+_Output: `FitzHugh-Nagumo_rigorous.png` and statistical summary table._
+
+### Experiment C.3: Optimizer Benchmark (CIFAR-10 and CHB-MIT)
+
+#### 1) Run the sweep/grid
+```bash
+bash experiments/03_optimizer_compare/Gap/bench/src/run_pareto_grid.sh
+```
+#### 2) Aggregate results
+```python
+python3 experiments/03_optimizer_compare/Gap/bench/src/aggregate_results.py
+```
+
+#### 3) Make plots (Figure 4/5-style)
+```python
+python3 experiments/03_optimizer_compare/Gap/bench/src/plot_acc_time.py
+python3 experiments/03_optimizer_compare/Gap/bench/src/plot_pareto_tradeoff.py
+```
+
+#### 4) Export LaTeX table (if used in the paper)
+```python
+python3 experiments/03_optimizer_compare/Gap/bench/src/export_latex_table.py
+```
+
 ## Citation
 If you use this code or our findings in your research, please cite the paper:
 
 ```bibtex
-@article{zainal2026neural,
+@article{zainal2026stabilityfirst,
   title={Neural Network Dynamics in Biomedical Applications: Reviewing the Gap Between Optimization Instability and Theory-Driven Design},
-  author={Zainal, Zayn Andre and Huang, Zhaojing and Aguilar, Isabelle and Kavahei, Omid},
+  author  = {Zainal, Zayn Andre and Kavahei, Omid and Aguilar, Isabelle and Herbozo Cortez, Luis Fernando and Huang, Zhaojing},
   journal={(TBA)},
   year={2026},
   institution={School of Biomedical Engineering, University of Sydney}
@@ -106,4 +149,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Corresponding author e-mail**: Andre Zainal (andre.zainal@sydney.edu.au)
+**Corresponding author e-mail**: Zayn Andre Zainal (andre.zainal@sydney.edu.au)
