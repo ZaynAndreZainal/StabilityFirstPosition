@@ -8,7 +8,7 @@ This repository contains the official PyTorch implementation and experimental da
 
 **"Neural Network Dynamics in Biomedical Applications: Reviewing the Gap Between Optimization Instability and Theory-Driven Design"**
 
-Zayn Andre Zainal, Omid Kavahei, Isabelle Aguilar, Luis Fernando Herbozo Contreras, Zhaojing Huang
+_Zayn Andre Zainal, Omid Kavahei, Isabelle Aguilar, Luis Fernando Herbozo Contreras, Zhaojing Huang_
 
 ## Abstract
 
